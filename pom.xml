@@ -23,7 +23,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring.boot.version>2.0.0.RELEASE</spring.boot.version>
-        <start-class>com.modianli.credit.api.CreditApiApplication</start-class>
+        <start-class>com.modianli.credit.CreditApiApplication</start-class>
 
         <docker.image.prefix>server.modianli.com:8443/h5-credit</docker.image.prefix>
     </properties>
@@ -52,6 +52,10 @@
 
     <modules>
         <module>api</module>
+        <module>common</module>
+        <module>dao</module>
+        <module>domain</module>
+        <module>service</module>
     </modules>
 
     <dependencyManagement>
@@ -84,7 +88,7 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
             <dependency>

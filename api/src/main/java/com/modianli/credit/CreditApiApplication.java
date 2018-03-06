@@ -1,4 +1,4 @@
-package com.modianli.credit.api;
+package com.modianli.credit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
