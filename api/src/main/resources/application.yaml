@@ -1,0 +1,21 @@
+###Project config
+spring:
+  application:
+    name: h5-credit
+  profiles:
+    active: #spring.profiles.active#
+
+###Session
+spring.session.redis.flush-mode: on_save
+spring.session.store-type: redis
+
+###Server config
+server:
+  port: 9001
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+  undertow:
+    worker-threads: 50
+    buffer-size: 1024
+    direct-buffers: true

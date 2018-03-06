@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="PID">????</Property>
+        <Property name="LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint}%clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
+
+        <Property name="FROM">zhanghaijun@modianli.com</Property>
+        <Property name="BCC">739663407@qq.com</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <SMTP name="Mail" subject="[dev]Lucky Server Error Log" from="${FROM}" bcc="${BCC}"
+              smtpHost="smtp.exmail.qq.com" smtpPort="25" bufferSize="50" smtpPassword="Mdl1230981" smtpUsername="${FROM}">
+        </SMTP>
+        <Async name="Async">
+            <AppenderRef ref="Mail"/>
+        </Async>
+    </Appenders>
+    <Loggers>
+        <!-- 当前应用日志输出 -->
+        <Logger name="com.modianli.credit" additivity="false" >
+            <AppenderRef ref="Console" level="debug"/>
+            <AppenderRef ref="Mail"  level="error"/>
+        </Logger>
+        <Logger name="org.springframework.orm" level="debug" additivity="false" >
+            <AppenderRef ref="Console" />
+        </Logger>
+        <Logger name="org.springframework.security" level="debug" additivity="false"/>
+
+        <!-- 依赖日志输出 -->
+        <Root level="info">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+</Configuration>

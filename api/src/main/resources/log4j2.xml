@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="PID">????</Property>
+        <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
+        <Property name="LOG_LEVEL_PATTERN">%5p</Property>
+        <Property name="CONSOLE_LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{${LOG_LEVEL_PATTERN}} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+        <Property name="FILE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN} ${sys:PID} --- [%t] %-40.40c{1.} : %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+        <Property name="LOG_HOME">/data/logs</Property>
+
+        <Property name="FROM">zhanghaijun@modianli.com</Property>
+        <Property name="BCC">739663407@qq.com</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" />
+        </Console>
+        <RollingFile name="appFile" fileName="${sys:LOG_HOME}/h5-credit.log" filePattern="${sys:LOG_HOME}/$${date:yyyy-MM}/h5-credit-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>${sys:FILE_LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+        </RollingFile>
+
+        <SMTP name="Mail" subject="[dev]Lucky Server Error Log" from="${FROM}" bcc="${BCC}"
+              smtpHost="smtp.exmail.qq.com" smtpPort="25" bufferSize="50" smtpPassword="Mdl1230981" smtpUsername="${FROM}">
+        </SMTP>
+        <Async name="Async">
+            <AppenderRef ref="Mail"/>
+        </Async>
+    </Appenders>
+    <Loggers>
+        <!-- 当前应用日志输出  PS: additivity-->
+        <Logger name="com.modianli.credit" additivity="false" >
+            <AppenderRef ref="appFile" level="debug"/>
+            <AppenderRef ref="Mail"  level="error"/>
+        </Logger>
+        <Logger name="org.springframework.web" level="debug" />
+
+        <!-- 依赖日志输出 -->
+        <Root level="info">
+            <!-- 配置依赖jar输出日志 -->
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="appFile" />
+        </Root>
+    </Loggers>
+</Configuration>
